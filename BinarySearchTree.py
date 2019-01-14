@@ -1,47 +1,66 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Jan 12 11:30:37 2019
 
-@author: Sahib
-"""
+# http://quiz.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/
+# Python program to demonstrate insert operation in binary search tree
 
-class Node():
-    
-    def __init__(self,val):
+# A utility class that represents an individual node in a BST
+class Node:
+    def __init__(self,key):
         self.left = None
         self.right = None
-        self.val = val
-        
-    
-    def insert(self, val):
-        if self.val:
-            if val < self.val:
-                if self.left:
-                    self.left.insert(val)
-                else:
-                    self.left = Node(val)
-                    
-            elif val > self.val:    
-                if self.right:
-                    self.right.insert(val)
-                else:
-                    self.right = Node(val)
-        else:            
-            self.val = val
-    
-    def pre_order_traverse(self):
-        
-        print (self.val)
-        
-        if self.left:
-            self.left.pre_order_traverse()
-            
-        if self.right:
-            self.right.pre_order_traverse()
-                
-                
-root = Node(12)
-root.insert(6)
-root.insert(14)
-root.insert(3)
-#root.pre_order_traverse()
+        self.val = key
+
+# A utility function to search a given key in BST
+def search(root,key):
+
+    # Base Cases: root is null or key is present at root
+    if root is None or root.val == key:
+        return root
+
+    # Key is greater than root's key
+    if root.val < key:
+        return search(root.right,key)
+
+    # Key is smaller than root's key
+    return search(root.left,key)
+
+# A utility function to insert a new node with the given key
+def insert(root,node):
+    if root is None:
+        root = node
+    else:
+        if root.val < node.val:
+            if root.right is None:
+                root.right = node
+            else:
+                insert(root.right, node)
+        else:
+            if root.left is None:
+                root.left = node
+            else:
+                insert(root.left, node)
+
+# A utility function to do inorder tree traversal
+def inorder(root):
+    if root:
+        inorder(root.left)
+        print(root.val)
+        inorder(root.right)
+
+
+# Driver program to test the above functions
+# Let us create the following BST
+#      50
+#    /    \
+#   30     70
+#   / \    / \
+#  20 40  60 80
+r = Node(50)
+insert(r,Node(30))
+insert(r,Node(20))
+insert(r,Node(40))
+insert(r,Node(70))
+insert(r,Node(60))
+insert(r,Node(80))
+
+# Print inoder traversal of the BST
+inorder(r)
